@@ -58,7 +58,10 @@ public class Player {
     }
 
     public void refresh() {
-        canvas.triangle(Xpos, Ypos, Xpos - 10, Ypos + 20, Xpos + 10, Ypos + 20);
+        canvas.fill(100, 0, 100);
+        canvas.triangle(Xpos, Ypos, Xpos - 15, Ypos + 40, Xpos + 15, Ypos + 40);
+        canvas.fill(240, 220, 190);
+        canvas.ellipse(Xpos, Ypos, 20, 20);
     }
 
     public void moveManager(int whichWay) {
