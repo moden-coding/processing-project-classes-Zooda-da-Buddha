@@ -9,10 +9,8 @@ public class Player {
     final int rIGHT = 6;
 
     private int mana;
-    private int manaMax;
 
     private int health;
-    private int healthMax;
 
     private int Xpos;
     private int Ypos;
@@ -21,35 +19,24 @@ public class Player {
 
     private int inventory;
 
-    private double money;
-    
-    private boolean combat;
 
     private PApplet canvas;
 
     public Player(int mana, int manaMax, int health, int healthMax, int x, int y, int inventory, double money, int speed, boolean combat, PApplet c) {
         this.mana = mana;
-        this.manaMax = manaMax;
 
         this.health = health;
-        this.healthMax = healthMax;
 
         this.Xpos = x;
         this.Ypos = y;
 
         this.inventory = inventory;
 
-        this.money = money;
-
         this.speed = speed;
 
-        this.combat = combat;
         canvas = c;
     }
 
-    public void inCombat() {
-        combat = true;
-    }
 
     public void damage(int damageDealt) {
         health -= damageDealt;
@@ -58,12 +45,9 @@ public class Player {
     }
 
     public void refresh() {
-        canvas.fill(100, 0, 100);
-        canvas.triangle(Xpos, Ypos, Xpos - 15, Ypos + 40, Xpos + 15, Ypos + 40);
-        canvas.fill(240, 220, 190);
+        canvas.fill(50, 100, 50);
+        canvas.triangle(Xpos, Ypos, Xpos - 9, Ypos + 24, Xpos + 9, Ypos + 24);
         canvas.ellipse(Xpos, Ypos, 20, 20);
-        canvas.fill(100, 0, 100);
-        canvas.triangle(Xpos - 8, Ypos - 6, Xpos + 8, Ypos - 6, Xpos, Ypos - 40);
     }
 
     public void moveManager(int whichWay) {

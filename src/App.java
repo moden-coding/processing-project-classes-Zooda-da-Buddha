@@ -1,7 +1,10 @@
 import processing.core.*;
+import java.util.ArrayList;
 
 public class App extends PApplet{
     double screen = 0.01;
+
+    double screenTo = 0;
 
     final int STARTaCTION = 1;
     final int ENDaCTION = 2;
@@ -12,6 +15,7 @@ public class App extends PApplet{
 
     final double MU1 = 0.01;
     final double MP1 = 60.00;
+    final double BF1 = 90.00;
 
 
     Player thePlayer;
@@ -37,17 +41,20 @@ public class App extends PApplet{
     public void draw(){
         if (screen == 0.01) {
             mu1();
-        }else if (screen == MP1) {
+        }else if (screen == 0.02) {
+            newScreen();
+        }else if(screen == MP1) {
             mkt1();
+        }else if(screen == BF1) {
+            bf1();
         }
-        delay(1);
     }
 
 
 
 
 
-
+    
     public void keyPressed() {
         if (screen % 1 == 0) {
             if (key == 'w' || key == UP) {
@@ -82,6 +89,16 @@ public class App extends PApplet{
         }
     }
 
+    public void  newScreen() {
+        if (true) {
+            screen = screenTo;
+        }
+    }
+    
+    
+    
+    
+    
     public void mu1() {
         background(70, 110, 30);
         rect(630, 557, 200, 100);
@@ -91,9 +108,33 @@ public class App extends PApplet{
             screen = MP1;
         }
     }
-
+    
+    
+    
+    
+// mk stands for market
+    
     public void mkt1() {
         background(90, 55, 55);
+        thePlayer.walls(0, 1460, 0, 836);
         thePlayer.refresh();
+        rect(1400, 368, 60, 150);
+
+        if (whereIsIt(thePlayer.XPOS(), thePlayer.YPOS(), 1400, 368, 60, 150)) {
+            screenTo = BF1;
+            newScreen();
+        }
     }
+
+
+
+
+//  bf stands for battlefeild
+
+    public void bf1() {
+        background(100, 100, 100);
+        thePlayer.walls(0, 1460, 0, 836);
+    }
+
+
 }
