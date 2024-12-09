@@ -103,5 +103,9 @@ public class Player {
     public int YPOS() {
         return this.Ypos;
     }
+
+    public boolean COMBAT() {
+        return combat;
+    }
     
 }

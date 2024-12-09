@@ -1,6 +1,6 @@
 import processing.core.PApplet;
 
-public class Player {
+public class Goblin {
     final int STARTaCTION = 1;
     final int ENDaCTION = 2;
     final int uP = 3;
@@ -9,28 +9,28 @@ public class Player {
     final int rIGHT = 6;
 
     private int mana;
+    private int manaMax;
 
     private int health;
+    private int healthMax;
 
     private int Xpos;
     private int Ypos;
 
     private int speed;
 
-    private int inventory;
-
 
     private PApplet canvas;
 
-    public Player(int mana, int manaMax, int health, int healthMax, int x, int y, int inventory, double money, int speed, boolean combat, PApplet c) {
+    public Goblin(int mana, int manaMax, int health, int healthMax, int x, int y, int inventory, double money, int speed, boolean combat, PApplet c) {
         this.mana = mana;
+        this.manaMax = manaMax;
 
         this.health = health;
+        this.healthMax = healthMax;
 
         this.Xpos = x;
         this.Ypos = y;
-
-        this.inventory = inventory;
 
         this.speed = speed;
 
@@ -45,9 +45,12 @@ public class Player {
     }
 
     public void refresh() {
-        canvas.fill(50, 100, 50);
-        canvas.triangle(Xpos, Ypos, Xpos - 9, Ypos + 24, Xpos + 9, Ypos + 24);
+        canvas.fill(100, 0, 100);
+        canvas.triangle(Xpos, Ypos, Xpos - 15, Ypos + 40, Xpos + 15, Ypos + 40);
+        canvas.fill(240, 220, 190);
         canvas.ellipse(Xpos, Ypos, 20, 20);
+        canvas.fill(100, 0, 100);
+        canvas.triangle(Xpos - 8, Ypos - 6, Xpos + 8, Ypos - 6, Xpos, Ypos - 40);
     }
 
     public void moveManager(int whichWay) {
@@ -60,10 +63,6 @@ public class Player {
         }else if (whichWay == dOWN) {
             this.Ypos += this.speed;
         }
-    }
-    
-    public void attack() {
-        canvas.quad(Xpos + 10, Ypos, Xpos + 16, Ypos, Xpos, Ypos, Xpos, Ypos);
     }
 
     public void walls(int leftWall, int rightWall, int farWall, int closeWall) {
@@ -87,5 +86,7 @@ public class Player {
     public int YPOS() {
         return this.Ypos;
     }
-    
+
+    public void quickMove()
 }
+

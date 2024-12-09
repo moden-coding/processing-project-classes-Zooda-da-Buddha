@@ -4,8 +4,6 @@ import java.util.ArrayList;
 public class App extends PApplet{
     double screen = 0.01;
 
-    double screenTo = 0;
-
     final int STARTaCTION = 1;
     final int ENDaCTION = 2;
     final int uP = 3;
@@ -25,7 +23,7 @@ public class App extends PApplet{
 
     public void setup(){
 
-        thePlayer = new Player(0, 0, 5, 5, 50, 50, 0, 0.00, 10, false, this);
+        thePlayer = new Player(0, 0, 5, 5, 730, 418, 0, 0.00, 10, false, this);
     }
 
     public void settings(){
@@ -54,8 +52,9 @@ public class App extends PApplet{
 
 
 
-    
+
     public void keyPressed() {
+       thePlayer.XPOS();
         if (screen % 1 == 0) {
             if (key == 'w' || key == UP) {
                 thePlayer.moveManager(uP);
@@ -66,17 +65,10 @@ public class App extends PApplet{
             }else if(key == 'd' || key == RIGHT) {
                 thePlayer.moveManager(rIGHT);
             }
-        }else if(screen % 0.01 == 0) {
-            
+        }else if(thePlayer.COMBAT() && key == 'f') {
+            thePlayer.attack();
         }
 
-    }
-
-    public void mousePressed() {
-//        if (whereIsIt(mouseX, mouseY, 630, 557, 200, 100)) {
-//             screen = MP1;
-//
-  //      }
     }
 
 
@@ -89,9 +81,8 @@ public class App extends PApplet{
         }
     }
 
-    public void  newScreen() {
-        if (true) {
-            screen = screenTo;
+    public void newScreen(double screenTo) {\
+        if (screenTo == MP1) {
         }
     }
     
@@ -121,7 +112,6 @@ public class App extends PApplet{
         rect(1400, 368, 60, 150);
 
         if (whereIsIt(thePlayer.XPOS(), thePlayer.YPOS(), 1400, 368, 60, 150)) {
-            screenTo = BF1;
             newScreen();
         }
     }
@@ -130,10 +120,15 @@ public class App extends PApplet{
 
 
 //  bf stands for battlefeild
+    public void setupbf1() {
+        Goblin[] GobMag = new Goblin[1];
+        GobMag[0] = Goblin(0, 0, 5, 5);
+    }
 
     public void bf1() {
         background(100, 100, 100);
         thePlayer.walls(0, 1460, 0, 836);
+        thePlayer.refresh();
     }
 
 
