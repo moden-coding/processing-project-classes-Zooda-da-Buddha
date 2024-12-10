@@ -22,7 +22,7 @@ public class Goblin {
 
     private PApplet canvas;
 
-    public Goblin(int mana, int manaMax, int health, int healthMax, int x, int y, int inventory, double money, int speed, boolean combat, PApplet c) {
+    public Goblin(int mana, int manaMax, int health, int healthMax, int x, int y, int speed, PApplet c) {
         this.mana = mana;
         this.manaMax = manaMax;
 
@@ -45,12 +45,12 @@ public class Goblin {
     }
 
     public void refresh() {
-        canvas.fill(100, 0, 100);
-        canvas.triangle(Xpos, Ypos, Xpos - 15, Ypos + 40, Xpos + 15, Ypos + 40);
-        canvas.fill(240, 220, 190);
-        canvas.ellipse(Xpos, Ypos, 20, 20);
-        canvas.fill(100, 0, 100);
-        canvas.triangle(Xpos - 8, Ypos - 6, Xpos + 8, Ypos - 6, Xpos, Ypos - 40);
+        canvas.fill(70, 110, 30);
+        canvas.noStroke();
+        canvas.quad(Xpos, Ypos + 20, Xpos + 10, Ypos + 20, Xpos + 10, Ypos + 40, Xpos + 20, Ypos + 40);
+        canvas.quad(Xpos, Ypos + 20, Xpos - 10, Ypos + 20, Xpos - 10, Ypos + 40, Xpos - 20, Ypos + 40);
+        canvas.circle(Xpos, Ypos - 30, 20);
+        canvas.rect(Xpos - 10, Ypos - 20, 20, 40);
     }
 
     public void moveManager(int whichWay) {
@@ -79,14 +79,28 @@ public class Goblin {
         }
     }
 
-    public int XPOS() {
+    public int GetX() {
         return this.Xpos;
     }
 
-    public int YPOS() {
+    public int GetY() {
         return this.Ypos;
     }
 
-    public void quickMove()
+
+    public void changeMana(int newMana) {
+        this.mana = newMana;
+        this.manaMax = newMana;
+    }
+
+    public void changeHealth(int newHealth) {
+        this.health = newHealth;
+        this.healthMax = newHealth;
+    }
+
+    public void quickMove(int newX, int newY) {
+        this.Xpos = newX;
+        this.Ypos = newY;
+    }
 }
 

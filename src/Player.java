@@ -58,6 +58,7 @@ public class Player {
     }
 
     public void refresh() {
+        canvas.noStroke();
         canvas.fill(100, 0, 100);
         canvas.triangle(Xpos, Ypos, Xpos - 15, Ypos + 40, Xpos + 15, Ypos + 40);
         canvas.fill(240, 220, 190);
@@ -96,11 +97,11 @@ public class Player {
         }
     }
 
-    public int XPOS() {
+    public int GetX() {
         return this.Xpos;
     }
 
-    public int YPOS() {
+    public int GetY() {
         return this.Ypos;
     }
 
@@ -108,4 +109,6 @@ public class Player {
         return combat;
     }
     
+    public void quickMove() {
+    }
 }

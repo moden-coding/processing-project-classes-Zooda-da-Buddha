@@ -15,8 +15,11 @@ public class App extends PApplet{
     final double MP1 = 60.00;
     final double BF1 = 90.00;
 
+    boolean first = true;
+
 
     Player thePlayer;
+    Goblin Goblin1;
     public static void main(String[] args)  {
         PApplet.main("App");
     }
@@ -24,6 +27,7 @@ public class App extends PApplet{
     public void setup(){
 
         thePlayer = new Player(0, 0, 5, 5, 730, 418, 0, 0.00, 10, false, this);
+        Goblin1 = new Goblin(0, 0, 0, 0, -100, -100, 0,  this);
     }
 
     public void settings(){
@@ -40,11 +44,12 @@ public class App extends PApplet{
         if (screen == 0.01) {
             mu1();
         }else if (screen == 0.02) {
-            newScreen();
         }else if(screen == MP1) {
             mkt1();
         }else if(screen == BF1) {
             bf1();
+        }else if (screen == 4.0) {
+            devstan();
         }
     }
 
@@ -54,7 +59,7 @@ public class App extends PApplet{
 
 
     public void keyPressed() {
-       thePlayer.XPOS();
+       thePlayer.GetX();
         if (screen % 1 == 0) {
             if (key == 'w' || key == UP) {
                 thePlayer.moveManager(uP);
@@ -64,6 +69,8 @@ public class App extends PApplet{
                 thePlayer.moveManager(dOWN);
             }else if(key == 'd' || key == RIGHT) {
                 thePlayer.moveManager(rIGHT);
+            }else if(key == 'j') {
+                screen = 4.0;
             }
         }else if(thePlayer.COMBAT() && key == 'f') {
             thePlayer.attack();
@@ -81,15 +88,31 @@ public class App extends PApplet{
         }
     }
 
-    public void newScreen(double screenTo) {\
+    public void newScreen(double screenTo) {
+        first = true;
         if (screenTo == MP1) {
+        }else if(screenTo == BF1) {
         }
     }
     
     
     
     
+    public void devstan() {
+        background(30, 30, 30);
+        if (first) {
+            Goblin1.quickMove(730, 418);
+            Goblin1.changeHealth(5);
+        }
+        Goblin1.refresh();
+        thePlayer.walls(0, 1460, 0, 836);
+        thePlayer.refresh();
+        first = false;
+    }
     
+
+
+
     public void mu1() {
         background(70, 110, 30);
         rect(630, 557, 200, 100);
@@ -99,7 +122,8 @@ public class App extends PApplet{
             screen = MP1;
         }
     }
-    
+     
+
     
     
     
@@ -111,8 +135,8 @@ public class App extends PApplet{
         thePlayer.refresh();
         rect(1400, 368, 60, 150);
 
-        if (whereIsIt(thePlayer.XPOS(), thePlayer.YPOS(), 1400, 368, 60, 150)) {
-            newScreen();
+        if (whereIsIt(thePlayer.GetX(), thePlayer.GetY(), 1400, 368, 60, 150)) {
+            newScreen(BF1);
         }
     }
 
@@ -120,12 +144,11 @@ public class App extends PApplet{
 
 
 //  bf stands for battlefeild
-    public void setupbf1() {
-        Goblin[] GobMag = new Goblin[1];
-        GobMag[0] = Goblin(0, 0, 5, 5);
-    }
 
     public void bf1() {
+        if (first == true) {
+            Goblin1.quickMove(730, 418);
+        }
         background(100, 100, 100);
         thePlayer.walls(0, 1460, 0, 836);
         thePlayer.refresh();
