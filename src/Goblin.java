@@ -88,19 +88,11 @@ public class Goblin {
     }
 
 
-    public void changeMana(int newMana) {
-        this.mana = newMana;
-        this.manaMax = newMana;
-    }
-
-    public void changeHealth(int newHealth) {
-        this.health = newHealth;
-        this.healthMax = newHealth;
-    }
-
-    public void quickMove(int newX, int newY) {
+    public void change(int itsMana, int itsHealth, int newX, int newY, int itsSpeed) {
+        this.mana = this.manaMax = itsMana;
+        this.health = this.healthMax = itsHealth;
         this.Xpos = newX;
-        this.Ypos = newY;
+        this.speed = itsSpeed;
     }
 }
 

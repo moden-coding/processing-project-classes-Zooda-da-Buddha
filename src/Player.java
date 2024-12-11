@@ -109,6 +109,8 @@ public class Player {
         return combat;
     }
     
-    public void quickMove() {
+    public void quickMove(int newX, int newY) {
+        this.Xpos = newX;
+        this.Ypos = newY;
     }
 }
