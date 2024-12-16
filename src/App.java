@@ -12,15 +12,24 @@ public class App extends PApplet {
     final int rIGHT = 6;
 
     final double MU1 = 0.01;
+    final double MU2 = 0.02;
     final double MK1 = 60.00;
-    final double BF1 = 90.00;
+    final double BF1 = 61.00;
+    final double BF2 = 62.00;
+
+
 
     boolean first = true;
+    boolean allDead = true;
+    boolean pointingRight = true;
+    boolean attacking = false;
+    int timer = 0;
 
 
 
     Player thePlayer;
-    Goblin[] goblins = new Goblin[20];
+    ArrayList<Goblin> goblinMaker = new ArrayList<>();
+    
 
     
 
@@ -35,37 +44,26 @@ public class App extends PApplet {
 
     public void settings() {
         size(1460, 836);
-        goblins[0] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[1] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[2] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[3] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[4] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[5] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[6] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[7] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[8] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[9] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[10] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[11] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        goblins[12] = new Goblin(0, 0, 0, 0, -100, -100, 0, new PApplet());
-        // middle is x = 730 and y = 418
-
-    }
-
-    private void GoblinMaker() {
-
     }
 
     public void draw() {
         if (screen == 0.01) {
             mu1();
         } else if (screen == 0.02) {
+            mu2();
         } else if (screen == MK1) {
             mkt1();
-        } else if (screen == BF1) {
+        }else if (screen == BF1) {
             bf1();
-        } else if (screen == 4.0) {
+        }else if (screen == 4.0) {
             devstan();
+        }else if (screen == BF2) {
+            bf2();
+        }
+        if (timer == 1000) {
+            timer = 0;
+        }else{
+            timer++;
         }
     }
 
@@ -74,17 +72,23 @@ public class App extends PApplet {
         if (screen % 1 == 0) {
             if (key == 'w' || key == UP) {
                 thePlayer.moveManager(uP);
+                attacking = false;
             } else if (key == 'a' || key == LEFT) {
                 thePlayer.moveManager(lEFT);
+                pointingRight = false;
+                attacking = false;
             } else if (key == 's' || key == DOWN) {
                 thePlayer.moveManager(dOWN);
+                attacking = false;
             } else if (key == 'd' || key == RIGHT) {
+                pointingRight = true;
                 thePlayer.moveManager(rIGHT);
+                attacking = false;
             } else if (key == 'j') {
-                screen = 4.0;
+                newScreen(4.0);
+            } else if (key == ' ') {
+                attacking = true;
             }
-        } else if (thePlayer.COMBAT() && key == 'f') {
-            thePlayer.attack();
         }
 
     }
@@ -102,39 +106,95 @@ public class App extends PApplet {
         first = true;
         screen = screenTo;
     }
+    
+    public void standerdRun(int numOfGobs, int putPlayerX, int putPlayerY) {
+        if (first == true) {
+            for (int i = 0; i < numOfGobs; i++) {
+                goblinMaker.add(new Goblin(5, 730, 418, 5, this));
+            }
 
-    public void damageManager() {
+            thePlayer.quickMove(putPlayerX, putPlayerY);
+        }
+            first = false;
+
+            thePlayer.refresh(attacking, pointingRight);
+
+        for (Goblin gobs: goblinMaker) {
+            if (gobs.GetHealth() > 0) {
+                gobs.move(thePlayer.GetX(), thePlayer.GetY());
+                if (thePlayer.GetX() == gobs.GetX() && thePlayer.GetY() == gobs.GetY()) {
+                    thePlayer.damage(1);
+                    System.out.println("damage");
+                }
+                gobs.refresh();
+                System.out.println("gob Refresh");
+                allDead = false;
+            }
+        }
+
+        if (thePlayer.GetHealth() < 0) {
+            newScreen(0.02);
+        }
+    }
+
+    public boolean allDead() {
+        boolean alive = false;
+        for (Goblin gobs: goblinMaker) {
+            if (gobs.GetHealth() > 0) {
+                alive = true;
+            }
+        }
+        return alive;
     }
 
     public void devstan() {
         background(30, 30, 30);
-        if (first) {
-            goblins[0].change(0, 5, 730, 418, 5);
-        }
+        standerdRun(2, 30, 418);
         thePlayer.walls(0, 1460, 0, 836);
-        thePlayer.refresh();
-        first = false;
+        System.out.println("hi");
     }
 
     public void mu1() {
         background(70, 110, 30);
-        rect(630, 557, 200, 100);
-        whereIsIt(mouseX, mouseY, 630, 557, 200, 100);
 
-        if (mousePressed && whereIsIt(mouseX, mouseY, 630, 557, 200, 100)) {
-            newScreen(MK1);
+        if (whereIsIt(mouseX, mouseY, 0, 0, 1460, 505)) {
+            textSize(50);
+            fill(50, 50, 50);
+            text("Resume game", 20, 450);
+            fill(50, 100, 50);
+            text("New Game", 20, 510);
+
+            if (mousePressed) {
+                newScreen(MK1);
+            }
+        }else if(whereIsIt(mouseX, mouseY, 0, 505, 1460, 836)) {
+            textSize(50);
+            fill(50, 100, 50);
+            text("Resume game", 20, 450);
+            fill(50, 50, 50);
+            text("New Game", 20, 510);
+        }
+    }
+
+    public void mu2() {
+        background(0, 0, 0);
+        textSize(100);
+        text("YOU DIED", 620, 368);
+        if (keyPressed) {
+            thePlayer.damage(-thePlayer.GetHealthMax());
         }
     }
 
     // mk stands for market
 
     public void mkt1() {
-        background(90, 55, 55);
+        background(80, 50, 50);
+        standerdRun(0, 30, 418);
         thePlayer.walls(0, 1460, 0, 836);
-        thePlayer.refresh();
-        rect(1400, 368, 60, 150);
+        fill(60);
+        rect(1430, 368, 60, 150);
 
-        if (whereIsIt(thePlayer.GetX(), thePlayer.GetY(), 1400, 368, 60, 150)) {
+        if (whereIsIt(thePlayer.GetX(), thePlayer.GetY(), 1430, 368, 60, 150)) {
             newScreen(BF1);
         }
     }
@@ -142,11 +202,23 @@ public class App extends PApplet {
     // bf stands for battlefeild
 
     public void bf1() {
-        if (first == true) {
-        }
         background(100, 100, 100);
+        standerdRun(1, 30, 418);
         thePlayer.walls(0, 1460, 0, 836);
-        thePlayer.refresh();
+        System.out.println("hi");
+        if (allDead) {
+            rect(1400, 776, 200, 100);
+            if (whereIsIt(thePlayer.GetX(), thePlayer.GetY(), 1400, 776, 200, 100)) {
+                newScreen(SCREEN);
+            }
+        }
+    }
+
+    public void bf2() {
+        background(100, 100, 100);
+        standerdRun(2, 30, 418);
+        thePlayer.walls(0, 1460, 0, 836);
+        System.out.println("hi");
     }
 
 }

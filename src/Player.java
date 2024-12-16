@@ -1,6 +1,6 @@
 import processing.core.PApplet;
 
-public class Player {
+public class Player{
     final int STARTaCTION = 1;
     final int ENDaCTION = 2;
     final int uP = 3;
@@ -22,8 +22,6 @@ public class Player {
     private int inventory;
 
     private double money;
-    
-    private boolean combat;
 
     private PApplet canvas;
 
@@ -37,27 +35,21 @@ public class Player {
         this.Xpos = x;
         this.Ypos = y;
 
+        this.speed = speed;
+
         this.inventory = inventory;
 
         this.money = money;
 
         this.speed = speed;
-
-        this.combat = combat;
         canvas = c;
-    }
-
-    public void inCombat() {
-        combat = true;
     }
 
     public void damage(int damageDealt) {
         health -= damageDealt;
-        if (health <= 0) {
-        }
     }
 
-    public void refresh() {
+    public void refresh(boolean attack, boolean right) {
         canvas.noStroke();
         canvas.fill(100, 0, 100);
         canvas.triangle(Xpos, Ypos, Xpos - 15, Ypos + 40, Xpos + 15, Ypos + 40);
@@ -65,6 +57,20 @@ public class Player {
         canvas.ellipse(Xpos, Ypos, 20, 20);
         canvas.fill(100, 0, 100);
         canvas.triangle(Xpos - 8, Ypos - 6, Xpos + 8, Ypos - 6, Xpos, Ypos - 40);
+        canvas.stroke(0);
+        if (attack && right) {
+            canvas.noStroke();
+            canvas.triangle(Xpos, Ypos + 12, Xpos + 20, Ypos + 12, Xpos + 20, Ypos + 22);
+            canvas.stroke(0);
+            canvas.fill
+            canvas.rect(Xpos + 20, Ypos + 13, 5, 4);
+            System.out.println("attacking right");
+        }else if (attack && right == false) {
+            canvas.noStroke();
+            canvas.triangle(Xpos, Ypos + 12, Xpos - 20, Ypos + 12, Xpos - 20, Ypos + 22);
+            System.out.println("attacking left");
+            
+        }
     }
 
     public void moveManager(int whichWay) {
@@ -79,8 +85,8 @@ public class Player {
         }
     }
     
-    public void attack() {
-        canvas.quad(Xpos + 10, Ypos, Xpos + 16, Ypos, Xpos, Ypos, Xpos, Ypos);
+    public void attack(boolean right) {
+
     }
 
     public void walls(int leftWall, int rightWall, int farWall, int closeWall) {
@@ -104,13 +110,16 @@ public class Player {
     public int GetY() {
         return this.Ypos;
     }
-
-    public boolean COMBAT() {
-        return combat;
-    }
     
     public void quickMove(int newX, int newY) {
         this.Xpos = newX;
         this.Ypos = newY;
+    }
+
+    public int GetHealthMax() {
+        return this.healthMax;
+    }
+    public int GetHealth() {
+        return this.health;
     }
 }
