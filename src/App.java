@@ -39,7 +39,7 @@ public class App extends PApplet {
 
     public void setup() {
 
-        thePlayer = new Player(0, 0, 5, 5, 730, 418, 0, 0.00, 10, false, this);
+        thePlayer = new Player(0, 0, 500, 500, 730, 418, 0, 0.00, 10, false, this);
     }
 
     public void settings() {
@@ -124,13 +124,18 @@ public class App extends PApplet {
                 gobs.move(thePlayer.GetX(), thePlayer.GetY());
                 if (thePlayer.GetX() == gobs.GetX() && thePlayer.GetY() == gobs.GetY()) {
                     thePlayer.damage(1);
-                    System.out.println("damage");
+                    System.out.println("Player damage");
+                    if (whereIsIt(gobs.GetX(), gobs.GetY(), thePlayer.GetX() + 15, thePlayer.GetY() + 40, 20, 80) && pointingRight)
+                    gobs.damage(1);
+                    System.out.println("Gob Damage r");
+                }else if (whereIsIt(gobs.GetX(), gobs.GetY(), thePlayer.GetX() - 35, thePlayer.GetY() + 40, 20, 80) && pointingRight)
+                    gobs.damage(1);
+                    System.out.println("Gob Damage l");
+                    allDead = false;
                 }
                 gobs.refresh();
                 System.out.println("gob Refresh");
-                allDead = false;
             }
-        }
 
         if (thePlayer.GetHealth() < 0) {
             newScreen(0.02);

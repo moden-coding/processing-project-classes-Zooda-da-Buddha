@@ -43,6 +43,8 @@ public class Goblin {
             canvas.quad(Xpos, Ypos + 20, Xpos - 10, Ypos + 20, Xpos - 10, Ypos + 40, Xpos - 20, Ypos + 40);
             canvas.circle(Xpos, Ypos - 30, 20);
             canvas.rect(Xpos - 10, Ypos - 20, 20, 40);
+            canvas.fill(100, 40, 40);
+            canvas.rect(Xpos + 20, Ypos - 40, ((float)health/healthMax)* 40, 5);
         }
     }
 

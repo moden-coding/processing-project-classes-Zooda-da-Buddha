@@ -58,18 +58,31 @@ public class Player{
         canvas.fill(100, 0, 100);
         canvas.triangle(Xpos - 8, Ypos - 6, Xpos + 8, Ypos - 6, Xpos, Ypos - 40);
         canvas.stroke(0);
+        canvas.fill(20);
+        canvas.rect(20, 20, 120, 50);
+        canvas.fill(30, 100, 30);
+        canvas.rect(30, 30, (float)health/healthMax * 100, 30);
+        System.out.println((float)health / healthMax);
         if (attack && right) {
             canvas.noStroke();
             canvas.triangle(Xpos, Ypos + 12, Xpos + 20, Ypos + 12, Xpos + 20, Ypos + 22);
             canvas.stroke(0);
-            canvas.fill
+            canvas.fill(240, 220, 190);
             canvas.rect(Xpos + 20, Ypos + 13, 5, 4);
-            System.out.println("attacking right");
+            canvas.fill(50, 50, 50);
+            canvas.noStroke();
+            canvas.rect(Xpos + 20, Ypos - 4, 4, 17);
+            canvas.triangle(Xpos + 20, Ypos - 4, Xpos + 24, Ypos - 4, Xpos + 22, Ypos - 6);
         }else if (attack && right == false) {
             canvas.noStroke();
             canvas.triangle(Xpos, Ypos + 12, Xpos - 20, Ypos + 12, Xpos - 20, Ypos + 22);
-            System.out.println("attacking left");
-            
+            canvas.stroke(0);
+            canvas.fill(240, 220, 190);
+            canvas.rect(Xpos - 24, Ypos + 13, 5, 4);
+            canvas.fill(50, 50, 50);
+            canvas.noStroke();
+            canvas.rect(Xpos - 24, Ypos - 4, 4, 17);
+            canvas.triangle(Xpos - 24, Ypos - 4, Xpos - 28, Ypos - 4, Xpos - 26, Ypos - 6);
         }
     }
 
