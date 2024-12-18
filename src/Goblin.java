@@ -16,9 +16,11 @@ public class Goblin {
 
     private int speed;
 
+    private int reward;
+
     private PApplet canvas;
 
-    public Goblin(int health, int x, int y, int speed, PApplet c) {
+    public Goblin(int health, int x, int y, int speed, int theReward, PApplet c) {
 
         this.health = health;
         this.healthMax = health;
@@ -27,6 +29,8 @@ public class Goblin {
         this.Ypos = y;
 
         this.speed = speed;
+
+        this.reward = theReward;
 
         canvas = c;
     }
@@ -44,7 +48,7 @@ public class Goblin {
             canvas.circle(Xpos, Ypos - 30, 20);
             canvas.rect(Xpos - 10, Ypos - 20, 20, 40);
             canvas.fill(100, 40, 40);
-            canvas.rect(Xpos + 20, Ypos - 40, ((float)health/healthMax)* 40, 5);
+            canvas.rect(Xpos -20, Ypos - 40, ((float)health/healthMax)* 40, 5);
         }
     }
 
@@ -77,6 +81,11 @@ public class Goblin {
     public int GetX() {
         return this.Xpos;
     }
+    
+    public void quickMove (int x, int y) {
+        this.Xpos = x;
+        this.Ypos = y;
+    }
 
     public int GetY() {
         return this.Ypos;
@@ -84,6 +93,10 @@ public class Goblin {
     
     public int GetHealth() {
         return this.health;
+    }
+
+    public int GetReward() {
+        return reward;
     }
 
     public void change(int itsHealth, int newX, int newY, int itsSpeed) {

@@ -65,6 +65,7 @@ public class Player{
         System.out.println((float)health / healthMax);
         if (attack && right) {
             canvas.noStroke();
+            canvas.fill (100, 0, 100);
             canvas.triangle(Xpos, Ypos + 12, Xpos + 20, Ypos + 12, Xpos + 20, Ypos + 22);
             canvas.stroke(0);
             canvas.fill(240, 220, 190);
@@ -75,6 +76,7 @@ public class Player{
             canvas.triangle(Xpos + 20, Ypos - 4, Xpos + 24, Ypos - 4, Xpos + 22, Ypos - 6);
         }else if (attack && right == false) {
             canvas.noStroke();
+            canvas.fill(100, 0, 100);
             canvas.triangle(Xpos, Ypos + 12, Xpos - 20, Ypos + 12, Xpos - 20, Ypos + 22);
             canvas.stroke(0);
             canvas.fill(240, 220, 190);
@@ -100,6 +102,10 @@ public class Player{
     
     public void attack(boolean right) {
 
+    }
+
+    public void changeMoney (int moneyChanged) {
+        this.money += moneyChanged;
     }
 
     public void walls(int leftWall, int rightWall, int farWall, int closeWall) {

@@ -39,7 +39,7 @@ public class App extends PApplet {
 
     public void setup() {
 
-        thePlayer = new Player(0, 0, 500, 500, 730, 418, 0, 0.00, 10, false, this);
+        thePlayer = new Player(0, 0, 500, 500, 730, 418, 0, 0.00, 15, false, this);
     }
 
     public void settings() {
@@ -95,7 +95,6 @@ public class App extends PApplet {
 
     public boolean whereIsIt(int itsX, int itsY, int leftOfItX, int aboveItY, int targetWidth, int targetHeight) {
         if (itsX > leftOfItX && itsY > aboveItY && itsX < leftOfItX + targetWidth && itsY < aboveItY + targetHeight) {
-            System.out.println("center");
             return true;
         } else {
             return false;
@@ -110,31 +109,58 @@ public class App extends PApplet {
     public void standerdRun(int numOfGobs, int putPlayerX, int putPlayerY) {
         if (first == true) {
             for (int i = 0; i < numOfGobs; i++) {
-                goblinMaker.add(new Goblin(5, 730, 418, 5, this));
+                goblinMaker.add(new Goblin(5, 730, 418, 5, 5, this));
             }
 
             thePlayer.quickMove(putPlayerX, putPlayerY);
         }
             first = false;
+            ArrayList<Integer> kills = new ArrayList<>();
+            
 
             thePlayer.refresh(attacking, pointingRight);
 
-        for (Goblin gobs: goblinMaker) {
-            if (gobs.GetHealth() > 0) {
+        for(int i = 0 ; i < goblinMaker.size(); i++){
+            Goblin gobs = goblinMaker.get(i);
+            if (gobs.GetHealth() >= 1) {
                 gobs.move(thePlayer.GetX(), thePlayer.GetY());
-                if (thePlayer.GetX() == gobs.GetX() && thePlayer.GetY() == gobs.GetY()) {
+                
+                
+                
+                if (whereIsIt(gobs.GetX(), gobs.GetY(), thePlayer.GetX()-15, thePlayer.GetY()-40, 30, 80)) {
                     thePlayer.damage(1);
-                    System.out.println("Player damage");
-                    if (whereIsIt(gobs.GetX(), gobs.GetY(), thePlayer.GetX() + 15, thePlayer.GetY() + 40, 20, 80) && pointingRight)
+                    
+                    
+                    
+                    if (pointingRight) {
+                        gobs.quickMove(gobs.GetX() +50, gobs.GetY());
+                    }else if (pointingRight == false) {
+                        gobs.quickMove(gobs.GetX() - 50, gobs.GetY());
+                    }
+                    
+                    
+                    
+                    if (whereIsIt(gobs.GetX(), gobs.GetY(), thePlayer.GetX() + 15, thePlayer.GetY() + 40, 20, 80) && pointingRight && attacking)
                     gobs.damage(1);
+                    gobs.quickMove(gobs.GetX() + 50, gobs.GetY());
                     System.out.println("Gob Damage r");
-                }else if (whereIsIt(gobs.GetX(), gobs.GetY(), thePlayer.GetX() - 35, thePlayer.GetY() + 40, 20, 80) && pointingRight)
+
+                }else if (whereIsIt(gobs.GetX(), gobs.GetY(), thePlayer.GetX() - 35, thePlayer.GetY() + 40, 20, 80) && pointingRight && attacking) {
                     gobs.damage(1);
+                    gobs.quickMove(gobs.GetX() + 50, gobs.GetY());
                     System.out.println("Gob Damage l");
+                }
+                if (gobs.GetHealth() < 1) {
+                    goblinMaker.remove(i);
+                    System.out.println("gob Killed");
+                }
+
                     allDead = false;
+                } else  {
+                    goblinMaker.remove(i);
+                    System.out.println("gob Killed");
                 }
                 gobs.refresh();
-                System.out.println("gob Refresh");
             }
 
         if (thePlayer.GetHealth() < 0) {
@@ -156,7 +182,6 @@ public class App extends PApplet {
         background(30, 30, 30);
         standerdRun(2, 30, 418);
         thePlayer.walls(0, 1460, 0, 836);
-        System.out.println("hi");
     }
 
     public void mu1() {
@@ -164,10 +189,10 @@ public class App extends PApplet {
 
         if (whereIsIt(mouseX, mouseY, 0, 0, 1460, 505)) {
             textSize(50);
-            fill(50, 50, 50);
-            text("Resume game", 20, 450);
+            fill(50, 50, 100);
+            text("New game", 20, 450);
             fill(50, 100, 50);
-            text("New Game", 20, 510);
+            text("resume Game", 20, 510);
 
             if (mousePressed) {
                 newScreen(MK1);
@@ -175,9 +200,9 @@ public class App extends PApplet {
         }else if(whereIsIt(mouseX, mouseY, 0, 505, 1460, 836)) {
             textSize(50);
             fill(50, 100, 50);
-            text("Resume game", 20, 450);
-            fill(50, 50, 50);
-            text("New Game", 20, 510);
+            text("New Game", 20, 450);
+            fill(50, 50, 100);
+            text("Resume Game", 20, 510);
         }
     }
 
@@ -190,14 +215,35 @@ public class App extends PApplet {
         }
     }
 
+    public void MU3() {
+        mkt1();        
+    }
+
     // mk stands for market
 
     public void mkt1() {
-        background(80, 50, 50);
-        standerdRun(0, 30, 418);
-        thePlayer.walls(0, 1460, 0, 836);
+        background(80, 80, 50);
+        thePlayer.walls(0, 1460, 170, 836);
         fill(60);
         rect(1430, 368, 60, 150);
+        fill(240, 220, 190);
+        circle(100, 100, 24);
+        fill(60, 110, 40);
+        rect(88, 112, 24, 50);
+
+        fill(240, 220, 190);
+        circle(300, 100, 24);
+        fill(60, 110, 40);
+        rect(288, 112, 24, 50);
+
+        rect(200, 0, 60, 160);
+        rect(0, 150, 1460, 50);
+        if(whereIsIt(thePlayer.GetX(), thePlayer.GetY(), 0, 170, 200, 50)) {
+
+        }
+
+
+        standerdRun(0, 30, 418);
 
         if (whereIsIt(thePlayer.GetX(), thePlayer.GetY(), 1430, 368, 60, 150)) {
             newScreen(BF1);
@@ -210,7 +256,6 @@ public class App extends PApplet {
         background(100, 100, 100);
         standerdRun(1, 30, 418);
         thePlayer.walls(0, 1460, 0, 836);
-        System.out.println("hi");
         if (allDead) {
             rect(1400, 776, 200, 100);
             if (whereIsIt(thePlayer.GetX(), thePlayer.GetY(), 1400, 776, 200, 100)) {
@@ -223,7 +268,6 @@ public class App extends PApplet {
         background(100, 100, 100);
         standerdRun(2, 30, 418);
         thePlayer.walls(0, 1460, 0, 836);
-        System.out.println("hi");
     }
 
 }
