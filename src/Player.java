@@ -25,7 +25,7 @@ public class Player{
 
     private PApplet canvas;
 
-    public Player(int mana, int manaMax, int health, int healthMax, int x, int y, int inventory, double money, int speed, boolean combat, PApplet c) {
+    public Player(int mana, int manaMax, int health, int healthMax, int x, int y, int inventory, double money, int speed, PApplet c) {
         this.mana = mana;
         this.manaMax = manaMax;
 
@@ -99,9 +99,12 @@ public class Player{
             this.Ypos += this.speed;
         }
     }
-    
-    public void attack(boolean right) {
 
+    public void change(int newMana, int newHealth, int newInventory, double newMoney) {
+        this.mana = this.manaMax = newMana;
+        this.health = this.healthMax = newHealth;
+        this.inventory = newInventory;
+        this.money = newMoney;
     }
 
     public void changeMoney (int moneyChanged) {
@@ -122,23 +125,43 @@ public class Player{
         }
     }
 
-    public int GetX() {
-        return this.Xpos;
-    }
-
-    public int GetY() {
-        return this.Ypos;
-    }
-    
     public void quickMove(int newX, int newY) {
         this.Xpos = newX;
         this.Ypos = newY;
     }
 
-    public int GetHealthMax() {
+    public int getX() {
+        return this.Xpos;
+    }
+
+    public int getY() {
+        return this.Ypos;
+    }
+    
+    public int getHealthMax() {
         return this.healthMax;
     }
-    public int GetHealth() {
+    public int getHealth() {
         return this.health;
+    }
+
+    public int getMana() {
+        return this.mana;
+    }
+
+    public int getManaMax() {
+        return this.manaMax;
+    }
+
+    public int getInventory() {
+        return this.inventory;
+    }
+
+    public double getMoney() {
+        return this.money;
+    }
+
+    public int getSpeed() {
+        return this.speed;
     }
 }
