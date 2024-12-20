@@ -100,9 +100,10 @@ public class Player{
         }
     }
 
-    public void change(int newMana, int newHealth, int newInventory, double newMoney) {
+    public void change(int newMana, int newHealth, int newSpeed, int newInventory, double newMoney) {
         this.mana = this.manaMax = newMana;
         this.health = this.healthMax = newHealth;
+        this.speed = newSpeed;
         this.inventory = newInventory;
         this.money = newMoney;
     }
